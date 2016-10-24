@@ -8,7 +8,6 @@ $config = new Config();
 
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($config->Channel_Token());
 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $config->Channel_Secret()]);
-//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('hello');
 
 $redis = new Redis();
 $redis->connect($config->Redis_Server(), $config->Redis_Port(), $config->Redis_Timeout());
@@ -17,15 +16,20 @@ while (true){
 	$img = $redis->lPop('imgq');
 	if ($msg){
 	        $json_array = json_decode($msg,true);
-		$dialogue = new Dialogue($json_array["events"][0]["message"]);
-	        $response = $bot->pushMessage($json_array["events"][0]["source"]["userId"], $dialogue->echo());
+		//事件處理
+		switch ($json_array["events"][0]["type"]){
+			case "message":
+				$dialogue = new Dialogue($json_array["events"][0]["message"]);
+				$ID = $json_array["events"][0]["source"]["userId"] ?? $json_array["events"][0]["source"]["groupId"];
+		                $response = $bot->pushMessage($ID, $dialogue->echo());
+				break;
+		}
 	}
+	//處理拉圖任務
 	else if ($img){
 		$response = $bot->getMessageContent($img);
-	//	var_dump($response);
 		if ($response->isSucceeded()) {
 			$tempfile = tmpfile();
-//			fwrite($tempfile, $response->getRawBody());
 			$imagefile = fopen("/mnt/linebotupload/images/".$img.".jpg","w+");
 	                fwrite($imagefile, $response->getRawBody());
         	        fclose($imagefile);
@@ -36,6 +40,7 @@ while (true){
         }
 }
 $redis->close();
+
 
 
 
