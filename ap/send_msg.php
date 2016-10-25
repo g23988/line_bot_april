@@ -2,6 +2,7 @@
 require_once __DIR__.'/../classes/Config.php';
 require_once __DIR__.'/../vendor/autoload.php';
 include __DIR__.'/../classes/Dialogue.php';
+require_once __DIR__.'/../classes/Brain.php';
 declare(ticks = 1);
 
 $config = new Config();
@@ -21,6 +22,7 @@ while (true){
 			case "message":
 				$dialogue = new Dialogue($json_array["events"][0]);
 				$ID = $json_array["events"][0]["source"]["userId"] ?? $json_array["events"][0]["source"]["groupId"] ?? $json_array["events"][0]["source"]["roomId"];
+	//			$ID = $json_array["events"][0]["source"]["userId"] ?? $json_array["events"][0]["source"]["groupId"];
 		                if($dialogue->echo()!=null) $response = $bot->pushMessage($ID, $dialogue->echo());
 				break;
 		}

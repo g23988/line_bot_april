@@ -29,7 +29,8 @@ class Dialogue{
 				break;
 			case "text":
 				if(preg_match("/^艾波|^波波/i",$this->_message["text"])){
-					$this->textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('Hi');
+					$april_brain = new Brain($this->_message["text"]);					
+					$this->textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($april_brain->echo());
 				}
 				else{
 					$this->textMessageBuilder = null;
