@@ -21,8 +21,8 @@ while (true){
 		switch ($json_array["events"][0]["type"]){
 			case "message":
 				$dialogue = new Dialogue($json_array["events"][0]);
-				$ID = $json_array["events"][0]["source"]["userId"] ?? $json_array["events"][0]["source"]["groupId"] ?? $json_array["events"][0]["source"]["roomId"];
-	//			$ID = $json_array["events"][0]["source"]["userId"] ?? $json_array["events"][0]["source"]["groupId"];
+	//			$ID = $json_array["events"][0]["source"]["userId"] ?? $json_array["events"][0]["source"]["groupId"] ?? $json_array["events"][0]["source"]["roomId"];
+				$ID = $json_array["events"][0]["source"]["userId"] ?? $json_array["events"][0]["source"]["groupId"];
 		                if($dialogue->echo()!=null) $response = $bot->pushMessage($ID, $dialogue->echo());
 				break;
 		}

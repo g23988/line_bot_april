@@ -52,5 +52,57 @@
             "line",
             "sdk"
         ]
+    },
+    {
+        "name": "fukuball/jieba-php",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fukuball/jieba-php.git",
+            "reference": "bdd030d7d71364dd8ea8fefff523d6b751ea0624"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fukuball/jieba-php/zipball/bdd030d7d71364dd8ea8fefff523d6b751ea0624",
+            "reference": "bdd030d7d71364dd8ea8fefff523d6b751ea0624",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">= 5.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.4.1",
+            "satooshi/php-coveralls": "dev-master",
+            "squizlabs/php_codesniffer": "1.5.6"
+        },
+        "time": "2016-10-04 09:28:08",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "files": [
+                "src/class/Jieba.php",
+                "src/class/JiebaAnalyse.php",
+                "src/class/Finalseg.php",
+                "src/class/Posseg.php",
+                "src/vendor/multi-array/MultiArray.php",
+                "src/vendor/multi-array/Factory/MultiArrayFactory.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "fukuball",
+                "email": "fukuball@gmail.com"
+            }
+        ],
+        "description": "結巴中文分詞（PHP 版本）：做最好的 PHP 中文分詞、中文斷詞組件",
+        "keywords": [
+            "Jieba",
+            "php"
+        ]
     }
 ]

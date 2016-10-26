@@ -23,7 +23,7 @@ class Dialogue{
 				$this->textMessageBuilder = new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(3,rand(180,250));
 				break;
 			case "image":
-				$this->textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('恩好，馬上幫您存起來');
+				//$this->textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('恩好，馬上幫您存起來');
 				//拉圖任務轉交
 				$this->_redis->rPush('imgq', $this->_message["id"]);
 				break;

@@ -1,4 +1,9 @@
 <?php
+ini_set('memory_limit', '1024M');
+use Fukuball\Jieba\Jieba;
+use Fukuball\Jieba\Finalseg;
+Jieba::init();
+Finalseg::init();
 class Brain{
 	private $_config;
 	private $_message;
@@ -12,7 +17,12 @@ class Brain{
 	}
 	
 	private function _process(){
-		$this->_return_message = $this->_elk->question($this->_message);
+		//去除波波 艾波
+		$message = preg_replace('/^艾波|^波波/', '', $this->_message);
+		//問題切詞
+		$array_question = Jieba::cutForSearch($message);
+		
+		$this->_return_message = $this->_elk->question($array_question);
 	}
 
 	
@@ -30,9 +40,13 @@ class Elk{
 	function __construct($elk_Host,$elk_Port,$elk_Index,$elk_Type){
                 $this->_search_url = "http://".$elk_Host.":".$elk_Port."/".$elk_Index."/".$elk_Type."/_search";
         }
-	function question($message){
-		$message = preg_replace('/^艾波|^波波/', '', $message);
-		$match_text["query"]["match"]["question"] = $message;
+	function question($array_question){
+		$match_list = array();
+		foreach ($array_question as $item ){
+			$match_item["match"]["question"] = $item;
+			array_push($match_list,$match_item);
+		}
+		$match_text["query"]["bool"]["must"] = $match_list;
 		$result = $this->_sentQuery(json_encode($match_text,JSON_UNESCAPED_UNICODE));
 		$back_array = $this->_getQuery($result);
 		$back_message = $this->_think($back_array);
